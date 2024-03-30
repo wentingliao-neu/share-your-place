@@ -10,6 +10,14 @@ const MIME_TYPE_MAP = {
 };
 
 const fileUploadB2 = async (req, res, next) => {
+   if (
+      !process.env.B2_API_KEY_ID ||
+      !process.env.B2_API_KEY ||
+      !process.env.B2_BUCKET_ID ||
+      !process.env.B2_LINK
+   ) {
+      return next(new HttpError("BackBlaze settings error", 400));
+   }
    const b2_apis = new b2({
       applicationKeyId: process.env.B2_API_KEY_ID,
       applicationKey: process.env.B2_API_KEY,
@@ -34,7 +42,7 @@ const fileUploadB2 = async (req, res, next) => {
    if (!fileInfo) {
       return next(new HttpError("Image upload failed", 422));
    }
-   req.body.image = process.env.B2_Link + fileName;
+   req.body.image = process.env.B2_LINK + fileName;
    next();
 };
 
