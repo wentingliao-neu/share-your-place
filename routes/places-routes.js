@@ -1,7 +1,7 @@
 const express = require("express");
 const { check } = require("express-validator");
 const placesControllers = require("../controllers/places-controllers");
-const fileUpload = require("../middleware/file-uploads");
+const { fileUploadB2, fileUpload } = require("../middleware/file-uploads");
 const router = express.Router();
 const checkAuth = require("../middleware/check-auth");
 router.get("/:pid", placesControllers.getPlaceById);
@@ -16,6 +16,7 @@ router.post(
       check("description").isLength({ min: 5 }),
       check("address").not().isEmpty(),
    ],
+   fileUploadB2,
    placesControllers.createPlace
 );
 router.patch(

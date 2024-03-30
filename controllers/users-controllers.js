@@ -26,7 +26,7 @@ async function signUp(req, res, next) {
       );
    }
 
-   const { name, email, password } = req.body;
+   const { name, email, password, image } = req.body;
    let existingUser;
    try {
       existingUser = await User.findOne({ email: email });
@@ -49,7 +49,7 @@ async function signUp(req, res, next) {
       name,
       email,
       password: hashedPassword,
-      image: req.file.path,
+      image,
       places: [],
    });
 

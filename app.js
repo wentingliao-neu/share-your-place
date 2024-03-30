@@ -6,11 +6,15 @@ const placesRoutes = require("./routes/places-routes.js");
 const HttpError = require("./models/http-errors.js");
 const usersRoutes = require("./routes/users-routes.js");
 const fs = require("fs");
+const cors = require("cors");
 
 const app = express();
+
+require("dotenv").config();
 app.use(bodyParser.json());
 app.use("/uploads/images", express.static(path.join("uploads", "images")));
 app.use(express.static(path.join("public")));
+
 // app.use((req, res, next) => {
 //    res.setHeader("Access-Control-Allow-Origin", "*");
 //    res.setHeader(
@@ -20,6 +24,7 @@ app.use(express.static(path.join("public")));
 //    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
 //    next();
 // });
+
 app.use("/api/places", placesRoutes);
 app.use("/api/users", usersRoutes);
 app.use((req, res, next) => {
@@ -30,11 +35,11 @@ app.use((req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
-   if (req.file) {
-      fs.unlink(req.file.path, (err) => {
-         console.log(err);
-      });
-   }
+   // if (req.file) {
+   //    fs.unlink(req.file.path, (err) => {
+   //       console.log(err);
+   //    });
+   // }
    if (res.headerSent) {
       return next(error);
    }
