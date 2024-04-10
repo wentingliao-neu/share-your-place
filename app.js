@@ -25,6 +25,8 @@ app.use(express.static(path.join("public")));
 //    next();
 // });
 
+//app.get("/", (req, res) => res.send("Express on Vercel"));
+
 app.use("/api/places", placesRoutes);
 app.use("/api/users", usersRoutes);
 app.use((req, res, next) => {
@@ -35,11 +37,6 @@ app.use((req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
-   // if (req.file) {
-   //    fs.unlink(req.file.path, (err) => {
-   //       console.log(err);
-   //    });
-   // }
    if (res.headerSent) {
       return next(error);
    }
@@ -58,3 +55,4 @@ mongoose
    .catch((err) => {
       console.log(err);
    });
+module.exports = app;
